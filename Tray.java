@@ -8,6 +8,7 @@ public class Tray {
 	String subType;
 	int trayID;
 	int numAvailable;
+	boolean isOld;
 
 	public Tray(String mType, String sType, int ID) {
 		baketime = LocalTime.now();
@@ -16,6 +17,7 @@ public class Tray {
 		subType = sType;
 		trayID = ID;
 		numAvailable = 200;
+		isOld = false;
 	}
 	
 	public Tray(String mType, String sType, int ID, LocalTime bTime, int dOld, int curDonuts) {
@@ -25,6 +27,11 @@ public class Tray {
 		subType = sType;
 		trayID = ID;
 		numAvailable = curDonuts;
+		
+		if (dOld > 1)
+			isOld = true;
+		else
+			isOld = false;
 	}
 	
 	public int removeDonuts(int num) {
