@@ -45,12 +45,12 @@ public class Trays {
 		int i = 0;
 		
 		while (remaining > 0 && i < currentTrays.size()) {
-			if (currentTrays.get(i).mainType.equals(mType) && currentTrays.get(i).subType.equals(sType))
+			if (!currentTrays.get(i).isOld && currentTrays.get(i).mainType.equals(mType) && currentTrays.get(i).subType.equals(sType))
 				remaining = currentTrays.get(i).removeDonuts(remaining);
 		}
 	}
 	
-	public void saveTrays(File f) throws IOException {
+	public void saveInventory(File f) throws IOException {
 		FileWriter writer = new FileWriter(f);
 		
 		for (int i = 0; i < currentTrays.size(); i++) {
@@ -61,10 +61,19 @@ public class Trays {
 			} else {
 				currentTrays.get(i).updateDaysOld();
 				
-				writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).trayID+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).baketime+"\n");
+				writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+"\n");
 			}
 		}
 		
 		writer.close();
 	}
-}
+	
+	public void saveTrays(File f) throws IOException {
+		FileWriter writer = new FileWriter(f);
+		
+		for (int i = 0; I < currentTrays.size(); i++) {
+			currentTrays.get(i).updateDaysOld();
+			
+			writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).trayID+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).baketime+"\n");
+		}
+	}
