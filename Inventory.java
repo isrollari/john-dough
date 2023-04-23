@@ -2,6 +2,8 @@ package johnDough;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,6 +32,34 @@ public class Inventory {
         } catch (FileNotFoundException e) {
             System.out.println("An error has occured, the file was not found");
             e.printStackTrace();
+        }
+    }
+
+    public static void writeInventory() {
+
+        FileWriter csvWriter;
+        try {
+            csvWriter = new FileWriter("doughnut-inventory.xlsx");
+
+            // write the data rows
+            for (Inventory inventory : InventoryData) {
+                csvWriter.append(inventory.getType());
+                csvWriter.append(",");
+                csvWriter.append(inventory.getSubType());
+                csvWriter.append(",");
+                csvWriter.append(inventory.getQuantity());
+                csvWriter.append(",");
+                csvWriter.append(inventory.getDaysOld());
+                csvWriter.append("\n");
+            }
+
+            System.out.println("Inventory successfully written");
+
+            csvWriter.flush();
+            csvWriter.close();
+
+        } catch (IOException e) {
+            System.err.println("Error writing inventory to CSV file: " + e.getMessage());
         }
     }
 
