@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class CustomerMenu extends Menu {
 	HashMap<String, Float> menuOptions = new HashMap<>();
 	
-	public Menu(File f) throws FileNotFoundException {
+	public CustomerMenu(File f) throws FileNotFoundException {
 		Scanner filesc = new Scanner(f);
 		String doughnutName, tmp;
 		float price;
