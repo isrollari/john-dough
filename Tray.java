@@ -16,7 +16,7 @@ public class Tray {
 		mainType = mType;
 		subType = sType;
 		trayID = ID;
-		numAvailable = 200;
+		numAvailable = 20;
 		isOld = false;
 	}
 	
