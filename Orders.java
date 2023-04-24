@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Orders {
 	 //TODO:
-	ArrayList<Order> inventory = new ArrayList<>();
+	public static ArrayList<Order> inventory = new ArrayList<>();
 	int i=1;
 	public void placeOrder(String date, String name, int glazed, int sugarR, int chocolateR, int plain,
 			int chocolateC, int sugarC, int lemon, int grape, int custard) 
@@ -15,7 +15,7 @@ public class Orders {
 		this.i++;
 	}
 	
-	public void printOrder(int index)
+	public static void printOrder(int index)
 	{
 		System.out.println("Date: "+inventory.get(index).getDate());
 		System.out.println("Name: "+inventory.get(index).getName());
