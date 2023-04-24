@@ -12,6 +12,7 @@ public class Inventory {
     private String subType;
     private String quantity;
     private String daysOld;
+    private String trayNum;
     public static ArrayList<Inventory> InventoryData = new ArrayList<>();
     public Inventory(){
         String datatest[] = {};
@@ -27,6 +28,7 @@ public class Inventory {
                 inventory.setSubType(datatest[1]);
                 inventory.setQuantity(datatest[2]);
                 inventory.setDaysOld(datatest[3]);
+                inventory.setTrayNum(datatest[4]);
                 InventoryData.add(inventory);
             }
         } catch (FileNotFoundException e) {
@@ -50,6 +52,8 @@ public class Inventory {
                 csvWriter.append(inventory.getQuantity());
                 csvWriter.append(",");
                 csvWriter.append(inventory.getDaysOld());
+                csvWriter.append(",");
+                csvWriter.append(inventory.getTrayNum());
                 csvWriter.append("\n");
             }
 
@@ -61,6 +65,14 @@ public class Inventory {
         } catch (IOException e) {
             System.err.println("Error writing inventory to CSV file: " + e.getMessage());
         }
+    }
+
+    public String getTrayNum() {
+        return trayNum;
+    }
+
+    public void setTrayNum(String trayNum) {
+        this.trayNum = trayNum;
     }
 
     public String getType() {
