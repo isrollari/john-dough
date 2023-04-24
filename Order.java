@@ -1,13 +1,12 @@
 package johnDough;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 public class Order {
 int order_ID;
@@ -95,8 +94,8 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 
 				// Access the order data using the index of the array
 				int orderId = Integer.parseInt(orderStr[0]);
-				String date = orderStr[1];
-				String name = orderStr[2];
+				String date = orderStr[2];
+				String name = orderStr[1];
 				int totalRaised = Integer.parseInt(orderStr[3]);
 				int glazed = Integer.parseInt(orderStr[4]);
 				int sugarR = Integer.parseInt(orderStr[5]);
@@ -140,7 +139,7 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 
 		FileWriter csvWriter;
 		try {
-			csvWriter = new FileWriter("order-history.csv");
+			csvWriter = new FileWriter("order-history.xlsx");
 
 			// write the data rows
 			for (Order order : OrderList) {
