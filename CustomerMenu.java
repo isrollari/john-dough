@@ -4,7 +4,7 @@ import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class Menu {
+public class CustomerMenu extends Menu {
 	HashMap<String, Float> menuOptions = new HashMap<>();
 	
 	public Menu(File f) throws FileNotFoundException {
