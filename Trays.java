@@ -71,9 +71,10 @@ public class Trays {
 	public void saveTrays(File f) throws IOException {
 		FileWriter writer = new FileWriter(f);
 		
-		for (int i = 0; I < currentTrays.size(); i++) {
+		for (int i = 0; i < currentTrays.size(); i++) {
 			currentTrays.get(i).updateDaysOld();
 			
 			writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).trayID+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).baketime+"\n");
 		}
 	}
+}
