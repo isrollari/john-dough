@@ -36,7 +36,7 @@ public class Menu {
 		int mchoice;
 		HashMap<String, Integer> ordered = new HashMap<>();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-		
+		Orders tod = new Orders();
 		menuOptions.forEach((s, f) -> {
 			ordered.put(s, 0);
 		});
@@ -76,7 +76,7 @@ public class Menu {
 						ordered.put(tmp.split("\\s")[0], Integer.parseInt(tmp.split("\\s")[1]));
 				}
 				
-				Orders.placeOrder(LocalDate.now().format(format), customerName, ordered.get("glazed"), ordered.get("sugarR"), ordered.get("chocolateR"), ordered.get("plain"), ordered.get("chocolateC"), ordered.get("sugarC"), ordered.get("lemon"), ordered.get("grape"), ordered.get("custard"));
+				tod.placeOrder(LocalDate.now().format(format), customerName, ordered.get("glazed"), ordered.get("sugarR"), ordered.get("chocolateR"), ordered.get("plain"), ordered.get("chocolateC"), ordered.get("sugarC"), ordered.get("lemon"), ordered.get("grape"), ordered.get("custard"));
 				
 				break;
 			default:
