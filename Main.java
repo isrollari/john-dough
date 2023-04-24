@@ -1,10 +1,59 @@
 package johnDough;
+import java.util.*;
+import java.io.*;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO initially call Trays file generation, prompt for user(customer, employee, admin), run relevant menu.
-
+		String EmployeePasskey = "ExamplePassword";
+		String AdminPasskey = "AdminPassword";
+		Scanner inputsc = new Scanner(System.in);
+		int mchoice;
+		String enteredKey;
+		Menu menu;
+		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\doughnut-menu.csv");
+		
+		System.out.println("Please select which menu to run:");
+		System.out.println("1. Customer Menu");
+		System.out.println("2. Employee Menu");
+		System.out.println("3. Admin Menu");
+		
+		mchoice = inputsc.nextInt();
+		
+		switch (mchoice) {
+		case 1:
+			menu = new CustomerMenu(FactoryMenu);
+			break;
+		case 2:
+			System.out.println("Please enter the employee passkey:");
+			enteredKey = inputsc.nextLine();
+			
+			if (!enteredKey.equals(EmployeePasskey)) {
+				System.out.println("That's not the correct password");
+				System.exit(1);
+			}
+			
+			menu = new EmployeeMenu();
+			break;
+		case 3:
+			System.out.println("Please enter the admin passkey:");
+			enteredKey = inputsc.nextLine();
+			
+			if (!enteredKey.equals(AdminPasskey)) {
+				System.out.println("That's not the correct password");
+				System.exit(1);
+			}
+			
+			menu = new AdminOptions();
+			break;
+		default:
+			System.out.println("That's not a valid option");
+			System.exit(1);
+		}
+		
+		inputsc.close();
+		menu.run();
 	}
 
 }
