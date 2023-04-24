@@ -1,5 +1,14 @@
 package johnDough;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 public class Order {
 int order_ID;
 String date;
@@ -36,8 +45,11 @@ double priceCustard = 2.00;
 int total_quantity;
 double total_price;
 
+public static ArrayList<Order> OrderList = new ArrayList<>();
 
+public Order(){
 
+}
 
 public Order(int order_ID, String date, String name, int glazed, int sugarR, int chocolateR, int plain,
 		int chocolateC, int sugarC, int lemon, int grape, int custard) {
@@ -63,8 +75,207 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 	this.total_price += (Lemon * priceLemon)+(Grape * priceGrape)+(Custard *priceCustard);
 }
 
+	public static void openOrder(){
 
-public void setIs_processed(boolean is_processed) {
+		String csvFile = "order-history.csv";
+		String line = "";
+		String csvSplitBy = ",";
+		int count = 0;
+
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+
+			while ((line = br.readLine()) != null) {
+
+				if (count == 0) {
+					count++;
+					continue; // skip the first line
+				}
+
+				String[] orderStr = line.split(csvSplitBy);
+
+				// Access the order data using the index of the array
+				int orderId = Integer.parseInt(orderStr[0]);
+				String date = orderStr[1];
+				String name = orderStr[2];
+				int totalRaised = Integer.parseInt(orderStr[3]);
+				int glazed = Integer.parseInt(orderStr[4]);
+				int sugarR = Integer.parseInt(orderStr[5]);
+				int chocolateR = Integer.parseInt(orderStr[6]);
+				int totalCake = Integer.parseInt(orderStr[7]);
+				int plain = Integer.parseInt(orderStr[8]);
+				int chocolateC = Integer.parseInt(orderStr[9]);
+				int sugarC = Integer.parseInt(orderStr[10]);
+				int totalFilled = Integer.parseInt(orderStr[11]);
+				int lemon = Integer.parseInt(orderStr[12]);
+				int grape = Integer.parseInt(orderStr[13]);
+				int custard = Integer.parseInt(orderStr[14]);
+
+				Order order = new Order();
+				order.setOrder_ID(orderId);
+				order.setDate(name);
+				order.setName(date);
+				order.setTotalRaised(totalRaised);
+				order.setGlazed(glazed);
+				order.setSugarR(sugarR);
+				order.setChocolateR(chocolateR);
+				order.setTotalCake(totalCake);
+				order.setPlain(plain);
+				order.setChocolateC(chocolateC);
+				order.setSugarC(sugarC);
+				order.setTotalFilled(totalFilled);
+				order.setLemon(lemon);
+				order.setGrape(grape);
+				order.setCustard(custard);
+				OrderList.add(order);
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void writeOrder() {
+
+		FileWriter csvWriter;
+		try {
+			csvWriter = new FileWriter("order-history.csv");
+
+			// write the data rows
+			for (Order order : OrderList) {
+				csvWriter.append((char) order.getOrder_ID());
+				csvWriter.append(",");
+				csvWriter.append(order.getDate());
+				csvWriter.append(",");
+				csvWriter.append(order.getName());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getTotalRaised());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getGlazed());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getSugarR());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getChocolateR());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getTotalCake());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getPlain());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getChocolateC());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getSugarC());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getTotalFilled());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getLemon());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getGrape());
+				csvWriter.append(",");
+				csvWriter.append((char) order.getCustard());
+				csvWriter.append("\n");
+			}
+
+			System.out.println("Inventory successfully written");
+
+			csvWriter.flush();
+			csvWriter.close();
+
+		} catch (IOException e) {
+			System.err.println("Error writing inventory to CSV file: " + e.getMessage());
+		}
+	}
+
+	public static void printOrders(){
+		for (Order order : OrderList) {
+			System.out.println("OrderID: " + order.getOrder_ID());
+			System.out.println("Date: "+ order.getDate());
+			System.out.println("Name: " + order.getName());
+			System.out.println("totalRaised: "+ order.getTotalRaised());
+			System.out.println("Glazed: " + order.getGlazed());
+			System.out.println("SugarR: "+ order.getSugarR());
+			System.out.println("ChocolateR: " + order.getChocolateR());
+			System.out.println("totalCake: "+ order.getTotalCake());
+			System.out.println("Plain: " + order.getPlain());
+			System.out.println("ChocolateC: "+ order.getChocolateC());
+			System.out.println("SugarC: " + order.getSugarC());
+			System.out.println("totalFilled: "+ order.getTotalFilled());
+			System.out.println("Lemon: " + order.getLemon());
+			System.out.println("Grape: "+ order.getGrape());
+			System.out.println("Custard: "+ order.getCustard());
+			System.out.println();
+		}
+	}
+
+	public void setOrder_ID(int order_ID) {
+		this.order_ID = order_ID;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setTotalRaised(int totalRaised) {
+		this.totalRaised = totalRaised;
+	}
+
+	public void setGlazed(int glazed) {
+		Glazed = glazed;
+	}
+
+	public void setSugarR(int sugarR) {
+		SugarR = sugarR;
+	}
+
+	public void setChocolateR(int chocolateR) {
+		ChocolateR = chocolateR;
+	}
+
+	public void setTotalCake(int totalCake) {
+		this.totalCake = totalCake;
+	}
+
+	public void setPlain(int plain) {
+		Plain = plain;
+	}
+
+	public void setChocolateC(int chocolateC) {
+		ChocolateC = chocolateC;
+	}
+
+	public void setSugarC(int sugarC) {
+		SugarC = sugarC;
+	}
+
+	public void setTotalFilled(int totalFilled) {
+		this.totalFilled = totalFilled;
+	}
+
+	public void setLemon(int lemon) {
+		Lemon = lemon;
+	}
+
+	public void setGrape(int grape) {
+		Grape = grape;
+	}
+
+	public void setCustard(int custard) {
+		Custard = custard;
+	}
+
+	public void setTotal_quantity(int total_quantity) {
+		this.total_quantity = total_quantity;
+	}
+
+	public void setTotal_price(double total_price) {
+		this.total_price = total_price;
+	}
+
+	public void setIs_processed(boolean is_processed) {
 	this.is_processed = is_processed;
 }
 
