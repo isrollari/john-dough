@@ -1,12 +1,14 @@
 package johnDough;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import java.util.ArrayList;
 
 public class Orders {
 	 //TODO:
+	private static final DecimalFormat df = new DecimalFormat("0.00");
 	public static ArrayList<Order> inventory = new ArrayList<>();
-	int i=1;
+	int i = 0;
 	public void placeOrder(String date, String name, HashMap<String, Integer> ordered)
 	{
 		HashMap<String, Integer> tmp = new HashMap<>();
@@ -35,7 +37,7 @@ public class Orders {
 		System.out.println("Date: "+inventory.get(index).getDate());
 		System.out.println("Name: "+inventory.get(index).getName());
 		System.out.println("Total Quantity: "+inventory.get(index).getTotal_quantity());
-		System.out.println("Price: "+inventory.get(index).getTotal_price());
+		System.out.println("Price: $"+df.format(inventory.get(index).getTotal_price()));
 		System.out.println("Order ID "+inventory.get(index).getOrder_ID());
 		if(inventory.get(index).getGlazed() != 0) {
 			System.out.println("Number of Glazed Doughnuts: "+ inventory.get(index).getGlazed());
