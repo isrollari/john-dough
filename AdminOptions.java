@@ -100,6 +100,7 @@ public class AdminOptions extends Menu {
 						}
 					});
 					
+					csvwriter.close();
 				} catch(IOException e) {
 					System.out.println("Error reading file");
 					System.exit(1);
