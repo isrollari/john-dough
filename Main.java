@@ -11,9 +11,9 @@ public class Main {
 		Scanner inputsc = new Scanner(System.in);
 		int mchoice;
 		String enteredKey;
-		Menu menu = new AdminOptions();
 		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\menu.csv");
 		File DoughnutInventory = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\doughnut-inventory.csv");
+		Menu menu = new Menu();
 		
 		System.out.println("Please select which menu to run:");
 		System.out.println("1. Customer Menu");
@@ -49,7 +49,7 @@ public class Main {
 				System.exit(1);
 			}
 			
-			menu = new AdminOptions();
+			menu = new AdminOptions(FactoryMenu);
 			break;
 		default:
 			System.out.println("That's not a valid option");
