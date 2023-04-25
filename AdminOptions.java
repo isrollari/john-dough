@@ -27,7 +27,7 @@ public class AdminOptions extends Menu {
 		
 		filesc.close();
 	}
-	
+
 	public void run() {
 		Scanner inputsc = new Scanner(System.in);
 		int mchoice, schoice;

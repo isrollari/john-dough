@@ -156,7 +156,7 @@ public class adminReport {
 
         FileWriter csvWriter;
         try {
-            csvWriter = new FileWriter("doughnut-inventory.xlsx");
+            csvWriter = new FileWriter("admin-report.csv");
 
             // write the data rows
             for (adminReport adminreport : adminReportData) {
