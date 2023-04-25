@@ -45,6 +45,7 @@ public class CustomerMenu extends Menu {
 			System.out.println("Welcome to the Socorro Doughnut Factory. Please select an option below:");
 			System.out.println("1. View the menu");
 			System.out.println("2. Place an order");
+			System.out.println("3. Exit the program");
 			
 			mchoice = inputsc.nextInt();
 			inputsc.nextLine();
@@ -85,6 +86,10 @@ public class CustomerMenu extends Menu {
 					ordered.put(s, 0);
 				});
 					
+				break;
+			case 3:
+				System.out.println("Exiting the program");
+				System.exit(0);
 				break;
 			default:
 				System.out.println("That's not a valid option.");

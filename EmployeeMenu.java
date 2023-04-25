@@ -52,6 +52,7 @@ public class EmployeeMenu extends Menu {
 			System.out.println("2. Update an order's status to \"processed\"");
 			System.out.println("3. Enter inventory information");
 			System.out.println("4. Place an order");
+			System.out.println("5. Exit the program");
 			
 			mchoice = inputsc.nextInt();
 			inputsc.nextLine();
@@ -125,12 +126,12 @@ public class EmployeeMenu extends Menu {
 			case 5:
 				try {
 					currentTrays.saveTrays();
+					System.out.println("You have successfully exited the program");
+					System.exit(0);
 				} catch (IOException e) {
 					System.out.println("An error occurred");
 					e.printStackTrace();
 				}
-				
-				System.exit(0);
 			default:
 				System.out.println("That's not a valid option");
 			}

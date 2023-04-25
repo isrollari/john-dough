@@ -40,6 +40,7 @@ public class AdminOptions extends Menu {
 			System.out.println("2. View menu");
 			System.out.println("3. Edit menu");
 			System.out.println("4. Change factory output");
+			System.out.println("5. Exit the program");
 			
 			mchoice = inputsc.nextInt();
 			inputsc.nextLine();
@@ -94,7 +95,6 @@ public class AdminOptions extends Menu {
 							csvwriter.append(s);
 							csvwriter.append(",");
 							csvwriter.append(String.valueOf(f));
-							csvwriter.append("\n");
 						} catch (IOException e) {
 							System.out.println("Error writing to file");
 							e.printStackTrace();
@@ -116,6 +116,10 @@ public class AdminOptions extends Menu {
 				
 				Orders.DailyDoughnuts = schoice;
 				
+				break;
+			case 5:
+				System.out.println("Exiting the program");
+				System.exit(0);
 				break;
 			default:
 				System.out.println("That's not a valid option");
