@@ -79,7 +79,7 @@ public class CustomerMenu extends Menu {
 				}
 				
 				tod.placeOrder(LocalDate.now().format(format), customerName, ordered);
-				Orders.printOrder(Orders.inventory.get(-1).getOrder_ID());
+				Orders.printOrder(Orders.inventory.get(Orders.inventory.size()-1).getOrder_ID());
 					
 				ordered.forEach((s, i) -> {
 					ordered.put(s, 0);

@@ -1,14 +1,16 @@
 package johnDough;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.io.FileWriter;
 
 import java.util.ArrayList;
 
 public class Orders {
-	 //TODO:
+	//TODO:
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 	public static ArrayList<Order> inventory = new ArrayList<>();
-	public static DailyDoughnuts = 200;
+	public static int DailyDoughnuts = 200;
 	int i = 0;
 	public void placeOrder(String date, String name, HashMap<String, Integer> ordered)
 	{
@@ -22,25 +24,34 @@ public class Orders {
 		tmp.put("Filled Lemon", 0);
 		tmp.put("Filled Grape", 0);
 		tmp.put("Filled Custard", 0);
-		
+
 		ordered.forEach((s, i) -> {
 			tmp.put(s, i);
 		});
-		
-		int orderedDoughnuts = tmp.get("Raised Glazed")+tmp.get("Raised Sugar)")+tmp.get("Raised Chocolate")+tmp.get("Cake Plain")+tmp.get("Cake Chocolate")+tmp.get("Cake Sugar")+tmp.get("Filled Lemon")+tmp.get("Filled Grape")+tmp.get("Filled Custard");
-		
-		if (orderedDoughnuts > DailyDoughnuts) {
-			System.out.println("We're sorry, but we are out of doughnuts for the day.");
-			return;
-		}
-		
+
 		Order temp = new Order(i, date, name, tmp.get("Raised Glazed"), tmp.get("Raised Sugar"), tmp.get("Raised Chocolate"),  tmp.get("Cake Plain"),
-				 tmp.get("Cake Chocolate"), tmp.get("Cake Sugar"), tmp.get("Filled Lemon"), tmp.get("Filled Grape"), tmp.get("Filled Custard"));
+				tmp.get("Cake Chocolate"), tmp.get("Cake Sugar"), tmp.get("Filled Lemon"), tmp.get("Filled Grape"), tmp.get("Filled Custard"));
 		inventory.add(temp);
-		DailyDoughnuts -= orderedDoughnuts;
+
+		FileWriter csvWriter;
+		try {
+			csvWriter = new FileWriter("order-history.csv", true);
+
+			String order = i + "," + date + "," + name + "," + temp.getTotalRaised() + "," + temp.getGlazed() + "," + temp.getSugarR() + "," + temp.getChocolateR() + "," + temp.getTotalCake() + "," + temp.getPlain() + "," + temp.getChocolateC() + "," + temp.getSugarC() + "," + temp.getTotalFilled() + "," + temp.getLemon() + "," + temp.getGrape() + "," + temp.getCustard() + "\n";
+			csvWriter.write(order);
+
+			System.out.println("Order successfully written");
+
+			csvWriter.flush();
+			csvWriter.close();
+
+		} catch (IOException e) {
+			System.err.println("Error writing inventory to CSV file: " + e.getMessage());
+		}
+
 		this.i++;
 	}
-	
+
 	public static void printOrder(int index)
 	{
 		System.out.println("Date: "+inventory.get(index).getDate());
@@ -75,7 +86,7 @@ public class Orders {
 		if(inventory.get(index).getCustard() != 0) {
 			System.out.println("Number of Custard Filled Doughnuts: "+ inventory.get(index).getCustard());
 		}
-		
+
 		if(inventory.get(index).isIs_processed())
 		{
 			System.out.println("Order has been processed");

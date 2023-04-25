@@ -12,6 +12,7 @@ public class Order {
 int order_ID;
 String date;
 String name;
+String processed;
 boolean is_processed = false;
 
 int totalRaised=0; 
@@ -69,6 +70,40 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 	this.totalCake = Plain +  SugarC + ChocolateC;
 	this.totalFilled = Lemon + Grape  + Custard;
 	this.total_quantity = totalRaised + totalCake + totalFilled;
+
+	String datatest[] = {};
+
+	double prices[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int j = 0;
+
+	try {
+		File myObj = new File("menu.csv");
+		Scanner myScanner = new Scanner(myObj);
+		while(myScanner.hasNextLine()){
+			String data = myScanner.nextLine();
+			datatest = data.split(",");
+
+			Double temp = Double.parseDouble(datatest[1]);
+
+			prices[j] = temp;
+
+			j++;
+		}
+	} catch (FileNotFoundException e) {
+		System.out.println("An error has occured, the file was not found");
+		e.printStackTrace();
+	}
+
+	priceGlazed = prices[0];
+	priceSugarR = prices[1];
+	priceChocolateR = prices[2];
+	pricePlain = prices[3];
+	priceChocolateC = prices[4];
+	priceSugarC = prices[5];
+	priceLemon = prices[6];
+	priceGrape = prices[7];
+	priceCustard = prices[8];
+
 	this.total_price = (Glazed * priceGlazed) + (ChocolateR * priceChocolateR) + (SugarR * priceSugarR);
 	this.total_price += (SugarC * priceSugarC)+(ChocolateC * priceChocolateC)+(Plain * pricePlain);
 	this.total_price += (Lemon * priceLemon)+(Grape * priceGrape)+(Custard *priceCustard);
@@ -96,23 +131,25 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 				int orderId = Integer.parseInt(orderStr[0]);
 				String date = orderStr[2];
 				String name = orderStr[1];
-				int totalRaised = Integer.parseInt(orderStr[3]);
-				int glazed = Integer.parseInt(orderStr[4]);
-				int sugarR = Integer.parseInt(orderStr[5]);
-				int chocolateR = Integer.parseInt(orderStr[6]);
-				int totalCake = Integer.parseInt(orderStr[7]);
-				int plain = Integer.parseInt(orderStr[8]);
-				int chocolateC = Integer.parseInt(orderStr[9]);
-				int sugarC = Integer.parseInt(orderStr[10]);
-				int totalFilled = Integer.parseInt(orderStr[11]);
-				int lemon = Integer.parseInt(orderStr[12]);
-				int grape = Integer.parseInt(orderStr[13]);
-				int custard = Integer.parseInt(orderStr[14]);
+				String processed = orderStr[3];
+				int totalRaised = Integer.parseInt(orderStr[4]);
+				int glazed = Integer.parseInt(orderStr[5]);
+				int sugarR = Integer.parseInt(orderStr[6]);
+				int chocolateR = Integer.parseInt(orderStr[7]);
+				int totalCake = Integer.parseInt(orderStr[8]);
+				int plain = Integer.parseInt(orderStr[9]);
+				int chocolateC = Integer.parseInt(orderStr[10]);
+				int sugarC = Integer.parseInt(orderStr[11]);
+				int totalFilled = Integer.parseInt(orderStr[12]);
+				int lemon = Integer.parseInt(orderStr[13]);
+				int grape = Integer.parseInt(orderStr[14]);
+				int custard = Integer.parseInt(orderStr[15]);
 
 				Order order = new Order();
 				order.setOrder_ID(orderId);
 				order.setDate(name);
 				order.setName(date);
+				order.setProcessed(processed);
 				order.setTotalRaised(totalRaised);
 				order.setGlazed(glazed);
 				order.setSugarR(sugarR);
@@ -148,6 +185,8 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 				csvWriter.append(order.getDate());
 				csvWriter.append(",");
 				csvWriter.append(order.getName());
+				csvWriter.append(",");
+				csvWriter.append(order.getProcessed());
 				csvWriter.append(",");
 				csvWriter.append((char) order.getTotalRaised());
 				csvWriter.append(",");
@@ -190,6 +229,7 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 			System.out.println("OrderID: " + order.getOrder_ID());
 			System.out.println("Date: "+ order.getDate());
 			System.out.println("Name: " + order.getName());
+			System.out.println("Status: " + order.getProcessed());
 			System.out.println("totalRaised: "+ order.getTotalRaised());
 			System.out.println("Glazed: " + order.getGlazed());
 			System.out.println("SugarR: "+ order.getSugarR());
@@ -204,6 +244,14 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 			System.out.println("Custard: "+ order.getCustard());
 			System.out.println();
 		}
+	}
+
+	public String getProcessed() {
+		return processed;
+	}
+
+	public void setProcessed(String processed) {
+		this.processed = processed;
 	}
 
 	public void setOrder_ID(int order_ID) {
