@@ -20,6 +20,9 @@ public class Inventory {
         try {
             File myObj = new File("doughnut-inventory.csv");
             Scanner myScanner = new Scanner(myObj);
+
+            myScanner.nextLine();
+
             while(myScanner.hasNextLine()){
                 String data = myScanner.nextLine();
                 datatest = data.split(",");

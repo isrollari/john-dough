@@ -11,8 +11,8 @@ public class Main {
 		Scanner inputsc = new Scanner(System.in);
 		int mchoice;
 		String enteredKey;
-		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\menu.csv");
-		File DoughnutInventory = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\doughnut-inventory.csv");
+		File FactoryMenu = new File("menu.csv");
+		File DoughnutInventory = new File("doughnut-inventory.csv");
 		Menu menu = new CustomerMenu(FactoryMenu);
 		
 		System.out.println("Please select which menu to run:");
