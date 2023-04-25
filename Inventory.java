@@ -18,7 +18,7 @@ public class Inventory {
         String datatest[] = {};
 
         try {
-            File myObj = new File("doughnut-inventory.xlsx");
+            File myObj = new File("doughnut-inventory.csv");
             Scanner myScanner = new Scanner(myObj);
             while(myScanner.hasNextLine()){
                 String data = myScanner.nextLine();
@@ -41,7 +41,7 @@ public class Inventory {
 
         FileWriter csvWriter;
         try {
-            csvWriter = new FileWriter("doughnut-inventory.xlsx");
+            csvWriter = new FileWriter("doughnut-inventory.csv");
 
             // write the data rows
             for (Inventory inventory : InventoryData) {
