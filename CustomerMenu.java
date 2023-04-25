@@ -79,6 +79,7 @@ public class CustomerMenu extends Menu {
 				}
 				
 				tod.placeOrder(LocalDate.now().format(format), customerName, ordered);
+				Orders.printOrder(Orders.inventory.get(-1).getOrder_ID());
 				break;
 			default:
 				System.out.println("That's not a valid option.");
