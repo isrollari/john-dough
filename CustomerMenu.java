@@ -47,6 +47,7 @@ public class CustomerMenu extends Menu {
 			System.out.println("2. Place an order");
 			
 			mchoice = inputsc.nextInt();
+			inputsc.nextLine();
 			
 			switch(mchoice) {
 			case 1:
@@ -58,8 +59,9 @@ public class CustomerMenu extends Menu {
 				menuOptions.forEach((s, f) -> {
 					System.out.println(s+" doughnuts: $"+f);
 				});
+				System.out.println();
 				
-				System.out.println("Please enter the number of each type of dougnut you'd like in the form 'Doughnut Type, number'.");
+				System.out.println("Please enter the number of each type of dougnut you'd like in the form 'doughnut Type, number'.");
 				System.out.println("When you're done, type 'place order' and press enter");
 				
 				while (true) {
@@ -73,7 +75,7 @@ public class CustomerMenu extends Menu {
 					} else if (!ordered.containsKey(tmp.split(",")[0])) {
 						System.out.println("That's not a valid doughnut type.");
 					} else
-						ordered.put(tmp.split(",")[0], Integer.parseInt(tmp.split("\\s")[1]));
+						ordered.put(tmp.split(",")[0], Integer.parseInt(tmp.split(",")[1].trim()));
 				}
 				
 				tod.placeOrder(LocalDate.now().format(format), customerName, ordered.get("glazed"), ordered.get("sugarR"), ordered.get("chocolateR"), ordered.get("plain"), ordered.get("chocolateC"), ordered.get("sugarC"), ordered.get("lemon"), ordered.get("grape"), ordered.get("custard"));
