@@ -70,13 +70,21 @@ public class Trays {
 		writer.close();
 	}
 	
-	public void saveTrays(File f) throws IOException {
-		FileWriter writer = new FileWriter(f);
+	public void saveTrays() throws IOException {
+		FileWriter writer = new FileWriter("doughnut-inventory.csv");
 		
 		for (int i = 0; i < currentTrays.size(); i++) {
-			currentTrays.get(i).updateDaysOld();
-			
-			writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).trayID+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).baketime+"\n");
+			if (currentTrays.get(i).numAvailable == 0)
+				continue;
+			else if (currentTrays.get(i).daysold == 1) {
+				System.out.println("Donut tray with ID "+currentTrays.get(i).trayID+" is expired; throw out.");
+			} else {
+				currentTrays.get(i).updateDaysOld();
+				
+				writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).trayID+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).baketime+"\n");
+			}
 		}
+		
+		writer.close();
 	}
 }
