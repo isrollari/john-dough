@@ -35,7 +35,7 @@ public class CustomerMenu extends Menu {
 		String tmp, customerName;
 		int mchoice;
 		HashMap<String, Integer> ordered = new HashMap<>();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("LLLL/dd/yyyy");
 		Orders tod = new Orders();
 		menuOptions.forEach((s, f) -> {
 			ordered.put(s, 0);
