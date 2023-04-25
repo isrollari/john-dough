@@ -84,7 +84,7 @@ public class Trays {
 			} else {
 				currentTrays.get(i).updateDaysOld();
 				
-				writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).trayID+"\n");
+				writer.write(currentTrays.get(i).mainType+","+currentTrays.get(i).subType+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).trayID+"\n");
 			}
 		}
 		
