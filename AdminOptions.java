@@ -28,7 +28,7 @@ public class AdminOptions extends Menu {
 		filesc.close();
 	}
 
-	public void run() {
+	public void run() throws FileNotFoundException {
 		Scanner inputsc = new Scanner(System.in);
 		int mchoice, schoice;
 		String tmp;
@@ -56,7 +56,8 @@ public class AdminOptions extends Menu {
 				
 				switch(schoice) {
 				case 1:
-					adminReport.printAdminReport();
+					adminReport.generateAdminReport();
+					adminReport.writeAdminReport();
 					break;
 				case 2:
 					adminReport.printAdminReportStale();

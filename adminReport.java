@@ -1,13 +1,16 @@
 package johnDough;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-
 public class adminReport {
 
     private String reportTime;
@@ -35,121 +38,188 @@ public class adminReport {
     private float totalPrice;
     private int totalQuantity;
     private int staleDoughnts;
-    public static ArrayList<adminReport> adminReportData = new ArrayList<>();
     public static ArrayList<adminReport> adminReportStaleData = new ArrayList<>();
+    public static ArrayList<adminReport> adminReportWeekly = new ArrayList<>();
+    public static ArrayList<adminReport> adminReportMonthly = new ArrayList<>();
+    public static ArrayList<adminReport> adminReportYearly = new ArrayList<>();
+    public static ArrayList<adminReport> adminReportWeeklyStale = new ArrayList<>();
+    public static ArrayList<adminReport> adminReportMonthlyStale = new ArrayList<>();
+    public static ArrayList<adminReport> adminReportYearlyStale = new ArrayList<>();
+
 
     public adminReport(){
 
     }
 
-    public static void openAdminReport(){
-        String csvFile = "admin-report.csv";
-        String line = "";
-        String csvSplitBy = ",";
-        int count = 0;
+    public static void generateAdminReport() throws FileNotFoundException{
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        String datatestprices[] = {};
 
-            while ((line = br.readLine()) != null) {
+        double prices[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int j = 0;
+        int weekcount = 0, monthcount = 0, yearcount = 0;
 
-                if (count == 0) {
-                    count++;
-                    continue; // skip the first line
-                }
+        try {
+            File myObj = new File("menu.csv");
+            Scanner myScanner = new Scanner(myObj);
 
-                String[] orderStr = line.split(csvSplitBy);
+            myScanner.nextLine();
 
-                // Access the order data using the index of the array
-                String reportTime = (orderStr[0]);
-                int totalRaised = Integer.parseInt(orderStr[1]);
-                int glazed = Integer.parseInt(orderStr[2]);
-                float glazedPrice = Float.parseFloat(orderStr[3]);
-                int sugarR = Integer.parseInt(orderStr[4]);
-                float sugarRPrice = Float.parseFloat(orderStr[5]);
-                int chocolateR = Integer.parseInt(orderStr[6]);
-                float chocolateRPrice = Float.parseFloat(orderStr[7]);
-                int totalCake = Integer.parseInt(orderStr[8]);
-                int plain = Integer.parseInt(orderStr[9]);
-                float plainPrice = Float.parseFloat(orderStr[10]);
-                int chocolateC = Integer.parseInt(orderStr[11]);
-                float chocolateCPrice = Float.parseFloat(orderStr[12]);
-                int sugarC = Integer.parseInt(orderStr[13]);
-                float sugarCPrice = Float.parseFloat(orderStr[14]);
-                int totalFilled = Integer.parseInt(orderStr[15]);
-                int lemon = Integer.parseInt(orderStr[16]);
-                float lemonPrice = Float.parseFloat(orderStr[17]);
-                int grape = Integer.parseInt(orderStr[18]);
-                float grapePrice = Float.parseFloat(orderStr[19]);
-                int custard = Integer.parseInt(orderStr[20]);
-                float custardPrice = Float.parseFloat(orderStr[21]);
-                float totalPrice = Float.parseFloat(orderStr[22]);
-                int totalQuantity = Integer.parseInt(orderStr[23]);
+            while(myScanner.hasNextLine()){
+                String data = myScanner.nextLine();
+                datatestprices = data.split(",");
 
-                adminReport adminreport = new adminReport();
-                adminreport.setReportTime(reportTime);
-                adminreport.setTotalRaised(totalRaised);
-                adminreport.setGlazed(glazed);
-                adminreport.setPriceGlazed(glazedPrice);
-                adminreport.setSugarR(sugarR);
-                adminreport.setPriceSugarR(sugarRPrice);
-                adminreport.setChocolateR(chocolateR);
-                adminreport.setPriceChocolateR(chocolateRPrice);
-                adminreport.setTotalCake(totalCake);
-                adminreport.setPlain(plain);
-                adminreport.setPricePlain(plainPrice);
-                adminreport.setChocolateC(chocolateC);
-                adminreport.setPriceChocolateC(chocolateCPrice);
-                adminreport.setSugarC(sugarC);
-                adminreport.setPriceSugarC(sugarCPrice);
-                adminreport.setTotalFilled(totalFilled);
-                adminreport.setLemon(lemon);
-                adminreport.setPriceLemon(lemonPrice);
-                adminreport.setGrape(grape);
-                adminreport.setPriceGrape(grapePrice);
-                adminreport.setCustard(custard);
-                adminreport.setPriceCustard(custardPrice);
-                adminreport.setTotalPrice(totalPrice);
-                adminreport.setTotalQuantity(totalQuantity);
+                Double temp = Double.parseDouble(datatestprices[1]);
 
-                adminReportData.add(adminreport);
+                prices[j] = temp;
+
+                j++;
             }
-
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("An error has occured, the file was not found");
             e.printStackTrace();
         }
+
+        double priceGlazed = prices[0];
+        double priceSugarR = prices[1];
+        double priceChocolateR = prices[2];
+        double pricePlain = prices[3];
+        double priceChocolateC = prices[4];
+        double priceSugarC = prices[5];
+        double priceLemon = prices[6];
+        double priceGrape = prices[7];
+        double priceCustard = prices[8];
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("M/d/yyyy");
+        LocalDate currentDate = LocalDate.now();
+
+        File FmyObj = new File("order-history.csv");
+        Scanner filesc = new Scanner(FmyObj);
+        String datatest[] = {};
+
+        filesc.nextLine();
+
+        while(filesc.hasNextLine()) {
+            String data = filesc.nextLine();
+            datatest = data.split(",");
+
+            LocalDate date = LocalDate.now();
+
+            if(LocalDate.parse(datatest[1], format).isBefore(date.minusDays(7))){
+
+            }
+            else{
+                adminReport adminreport = new adminReport();
+
+                adminreport.setTotalRaised(Integer.parseInt(datatest[3]));
+                adminreport.setGlazed(Integer.parseInt(datatest[4]));
+                adminreport.setPriceGlazed((float) (Double.parseDouble(datatest[4]) * priceGlazed));
+                adminreport.setSugarR(Integer.parseInt(datatest[5]));
+                adminreport.setPriceSugarR((float) (Double.parseDouble(datatest[5]) * priceSugarR));
+                adminreport.setChocolateR(Integer.parseInt(datatest[6]));
+                adminreport.setPriceChocolateR((float) (Double.parseDouble(datatest[6]) * priceChocolateR));
+                adminreport.setTotalCake(Integer.parseInt(datatest[7]));
+                adminreport.setPlain(Integer.parseInt(datatest[8]));
+                adminreport.setPricePlain((float) (Double.parseDouble(datatest[8]) * pricePlain));
+                adminreport.setChocolateC(Integer.parseInt(datatest[9]));
+                adminreport.setPriceChocolateC((float) (Double.parseDouble(datatest[9]) * priceChocolateC));
+                adminreport.setSugarC(Integer.parseInt(datatest[10]));
+                adminreport.setPriceSugarC((float) (Double.parseDouble(datatest[10]) * priceSugarC));
+                adminreport.setTotalFilled(Integer.parseInt(datatest[11]));
+                adminreport.setLemon(Integer.parseInt(datatest[12]));
+                adminreport.setPriceLemon((float) (Double.parseDouble(datatest[12]) * priceLemon));
+                adminreport.setGrape(Integer.parseInt(datatest[13]));
+                adminreport.setPriceGrape((float) (Double.parseDouble(datatest[13]) * priceGrape));
+                adminreport.setCustard(Integer.parseInt(datatest[14]));
+                adminreport.setPriceCustard((float) (Double.parseDouble(datatest[14]) * priceCustard));
+                adminreport.setTotalQuantity(Integer.parseInt(datatest[4]) + Integer.parseInt(datatest[5]) + Integer.parseInt(datatest[5]) + Integer.parseInt(datatest[8]) +
+                        Integer.parseInt(datatest[9]) + Integer.parseInt(datatest[10]) + Integer.parseInt(datatest[12]) + Integer.parseInt(datatest[13]) + Integer.parseInt(datatest[14]));
+                adminreport.setTotalPrice((float) (Double.parseDouble(datatest[4]) * priceGlazed) + (float) (Double.parseDouble(datatest[5]) * priceGlazed) + (float) (Double.parseDouble(datatest[6]) * priceGlazed) +
+                        (float) (Double.parseDouble(datatest[8]) * priceGlazed) + (float) (Double.parseDouble(datatest[9]) * priceGlazed) + (float) (Double.parseDouble(datatest[10]) * priceGlazed) +
+                        (float) (Double.parseDouble(datatest[12]) * priceGlazed) + (float) (Double.parseDouble(datatest[13]) * priceGlazed) + (float) (Double.parseDouble(datatest[14]) * priceGlazed));
+                adminReportWeekly.add(adminreport);
+            }
+
+            if(LocalDate.parse(datatest[1], format).isBefore(date.minusDays(31))){
+
+            }
+            else{
+                adminReport adminreport = new adminReport();
+
+                adminreport.setTotalRaised(Integer.parseInt(datatest[3]));
+                adminreport.setGlazed(Integer.parseInt(datatest[4]));
+                adminreport.setPriceGlazed((float) (Double.parseDouble(datatest[4]) * priceGlazed));
+                adminreport.setSugarR(Integer.parseInt(datatest[5]));
+                adminreport.setPriceSugarR((float) (Double.parseDouble(datatest[5]) * priceSugarR));
+                adminreport.setChocolateR(Integer.parseInt(datatest[6]));
+                adminreport.setPriceChocolateR((float) (Double.parseDouble(datatest[6]) * priceChocolateR));
+                adminreport.setTotalCake(Integer.parseInt(datatest[7]));
+                adminreport.setPlain(Integer.parseInt(datatest[8]));
+                adminreport.setPricePlain((float) (Double.parseDouble(datatest[8]) * pricePlain));
+                adminreport.setChocolateC(Integer.parseInt(datatest[9]));
+                adminreport.setPriceChocolateC((float) (Double.parseDouble(datatest[9]) * priceChocolateC));
+                adminreport.setSugarC(Integer.parseInt(datatest[10]));
+                adminreport.setPriceSugarC((float) (Double.parseDouble(datatest[10]) * priceSugarC));
+                adminreport.setTotalFilled(Integer.parseInt(datatest[11]));
+                adminreport.setLemon(Integer.parseInt(datatest[12]));
+                adminreport.setPriceLemon((float) (Double.parseDouble(datatest[12]) * priceLemon));
+                adminreport.setGrape(Integer.parseInt(datatest[13]));
+                adminreport.setPriceGrape((float) (Double.parseDouble(datatest[13]) * priceGrape));
+                adminreport.setCustard(Integer.parseInt(datatest[14]));
+                adminreport.setPriceCustard((float) (Double.parseDouble(datatest[14]) * priceCustard));
+                adminreport.setTotalQuantity(Integer.parseInt(datatest[4]) + Integer.parseInt(datatest[5]) + Integer.parseInt(datatest[5]) + Integer.parseInt(datatest[8]) +
+                        Integer.parseInt(datatest[9]) + Integer.parseInt(datatest[10]) + Integer.parseInt(datatest[12]) + Integer.parseInt(datatest[13]) + Integer.parseInt(datatest[14]));
+                adminreport.setTotalPrice((float) (Double.parseDouble(datatest[4]) * priceGlazed) + (float) (Double.parseDouble(datatest[5]) * priceGlazed) + (float) (Double.parseDouble(datatest[6]) * priceGlazed) +
+                        (float) (Double.parseDouble(datatest[8]) * priceGlazed) + (float) (Double.parseDouble(datatest[9]) * priceGlazed) + (float) (Double.parseDouble(datatest[10]) * priceGlazed) +
+                        (float) (Double.parseDouble(datatest[12]) * priceGlazed) + (float) (Double.parseDouble(datatest[13]) * priceGlazed) + (float) (Double.parseDouble(datatest[14]) * priceGlazed));
+
+                adminReportMonthly.add(adminreport);
+            }
+
+            if(LocalDate.parse(datatest[1], format).isBefore(date.minusDays(365))){
+
+            }
+            else{
+                adminReport adminreport = new adminReport();
+
+                adminreport.setTotalRaised(Integer.parseInt(datatest[3]));
+                adminreport.setGlazed(Integer.parseInt(datatest[4]));
+                adminreport.setPriceGlazed((float) (Double.parseDouble(datatest[4]) * priceGlazed));
+                adminreport.setSugarR(Integer.parseInt(datatest[5]));
+                adminreport.setPriceSugarR((float) (Double.parseDouble(datatest[5]) * priceSugarR));
+                adminreport.setChocolateR(Integer.parseInt(datatest[6]));
+                adminreport.setPriceChocolateR((float) (Double.parseDouble(datatest[6]) * priceChocolateR));
+                adminreport.setTotalCake(Integer.parseInt(datatest[7]));
+                adminreport.setPlain(Integer.parseInt(datatest[8]));
+                adminreport.setPricePlain((float) (Double.parseDouble(datatest[8]) * pricePlain));
+                adminreport.setChocolateC(Integer.parseInt(datatest[9]));
+                adminreport.setPriceChocolateC((float) (Double.parseDouble(datatest[9]) * priceChocolateC));
+                adminreport.setSugarC(Integer.parseInt(datatest[10]));
+                adminreport.setPriceSugarC((float) (Double.parseDouble(datatest[10]) * priceSugarC));
+                adminreport.setTotalFilled(Integer.parseInt(datatest[11]));
+                adminreport.setLemon(Integer.parseInt(datatest[12]));
+                adminreport.setPriceLemon((float) (Double.parseDouble(datatest[12]) * priceLemon));
+                adminreport.setGrape(Integer.parseInt(datatest[13]));
+                adminreport.setPriceGrape((float) (Double.parseDouble(datatest[13]) * priceGrape));
+                adminreport.setCustard(Integer.parseInt(datatest[14]));
+                adminreport.setPriceCustard((float) (Double.parseDouble(datatest[14]) * priceCustard));
+                adminreport.setTotalQuantity(Integer.parseInt(datatest[4]) + Integer.parseInt(datatest[5]) + Integer.parseInt(datatest[5]) + Integer.parseInt(datatest[8]) +
+                        Integer.parseInt(datatest[9]) + Integer.parseInt(datatest[10]) + Integer.parseInt(datatest[12]) + Integer.parseInt(datatest[13]) + Integer.parseInt(datatest[14]));
+                adminreport.setTotalPrice((float) (Double.parseDouble(datatest[4]) * priceGlazed) + (float) (Double.parseDouble(datatest[5]) * priceGlazed) + (float) (Double.parseDouble(datatest[6]) * priceGlazed) +
+                        (float) (Double.parseDouble(datatest[8]) * priceGlazed) + (float) (Double.parseDouble(datatest[9]) * priceGlazed) + (float) (Double.parseDouble(datatest[10]) * priceGlazed) +
+                        (float) (Double.parseDouble(datatest[12]) * priceGlazed) + (float) (Double.parseDouble(datatest[13]) * priceGlazed) + (float) (Double.parseDouble(datatest[14]) * priceGlazed));
+
+                adminReportYearly.add(adminreport);
+            }
+
+        }
+        filesc.close();
+
+        System.out.print("Week: " + weekcount + " Month: " + monthcount + " Year: " + yearcount + "\n");
     }
 
     public static void openAdminReportStale(){
-        String csvFile = "admin-report-stale.csv";
-        String line = "";
-        String csvSplitBy = ",";
-        int count = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-
-            while ((line = br.readLine()) != null) {
-
-                if (count == 0) {
-                    count++;
-                    continue; // skip the first line
-                }
-
-                String[] orderStr = line.split(csvSplitBy);
-
-                // Access the order data using the index of the array
-                String reportTime = (orderStr[0]);
-                int stale = Integer.parseInt(orderStr[1]);
-
-                adminReport adminreport = new adminReport();
-                adminreport.setReportTime(reportTime);
-                adminreport.setStaleDoughnts(stale);
-
-                adminReportStaleData.add(adminreport);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void writeAdminReport() {
@@ -157,65 +227,163 @@ public class adminReport {
         FileWriter csvWriter;
         try {
             csvWriter = new FileWriter("admin-report.csv");
+            BufferedWriter bw = new BufferedWriter(csvWriter);
+
+            int sumTotalRaised = 0, sumTotalGlazed = 0, sumTotalSugarR = 0, sumTotalChocolateR = 0, sumTotalCake = 0,
+                    sumTotalPlain = 0, sumTotalChocolateC = 0, sumTotalSugarC = 0, sumTotalFilled = 0, sumTotalLemon = 0,
+                     sumTotalGrape = 0, sumTotalCustard = 0, sumTotalQuantityTotal = 0;
+
+            float sumTotalPriceGlazed = 0, sumTotalPriceSugarR = 0, sumTotalPriceChocolateR = 0, sumTotalPricePlain = 0, sumTotalPriceChocolateC = 0, sumTotalPriceSugarC = 0, sumTotalPriceLemon = 0,
+                    sumTotalPriceGrape = 0, sumTotalPriceCustard = 0, sumTotalPriceTotal = 0;
+
+            String Header = "Type, total Raised, Glazed, Glazed price, SugarR, SugarR price, ChocolateR, ChocolateR price, total Cake, Plain, Plain price, ChocolateC, ChocolateC price, SugarC, SugarC price, total Filled, Lemon, Lemon price, Grape, Grape price, Custard, Custard price, Total Quantity, Total Price\n";
+
+            bw.write(Header);
+            bw.flush();
 
             // write the data rows
-            for (adminReport adminreport : adminReportData) {
-                csvWriter.append(adminreport.getReportTime());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getTotalRaised());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getGlazed());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceGlazed());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getSugarR());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceSugarR());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getChocolateR());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceChocolateR());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getTotalCake());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPlain());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPricePlain());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getChocolateC());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceChocolateC());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getSugarC());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceSugarC());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getTotalFilled());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getLemon());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceLemon());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getGrape());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceGrape());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getCustard());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getPriceCustard());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getTotalPrice());
-                csvWriter.append(",");
-                csvWriter.append((char) adminreport.getTotalQuantity());
-                csvWriter.append(",");
+            for (adminReport adminreport : adminReportWeekly) {
+                sumTotalRaised = sumTotalRaised + adminreport.getTotalRaised();
+                sumTotalGlazed = sumTotalGlazed + adminreport.getGlazed();
+                sumTotalSugarR = sumTotalSugarR + adminreport.getSugarR();
+                sumTotalChocolateR = sumTotalChocolateR + adminreport.getChocolateR();
+                sumTotalCake = sumTotalCake + adminreport.getTotalCake();
+                sumTotalPlain = sumTotalPlain + adminreport.getPlain();
+                sumTotalChocolateC = sumTotalChocolateC + adminreport.getChocolateC();
+                sumTotalSugarC = sumTotalSugarC + adminreport.getSugarC();
+                sumTotalFilled = sumTotalFilled + adminreport.getTotalFilled();
+                sumTotalLemon = sumTotalLemon + adminreport.getLemon();
+                sumTotalGrape = sumTotalGrape + adminreport.getGrape();
+                sumTotalCustard = sumTotalCustard + adminreport.getCustard();
+                sumTotalQuantityTotal = sumTotalQuantityTotal + adminreport.getTotalQuantity();
 
-                csvWriter.append("\n");
+                sumTotalPriceGlazed = sumTotalPriceGlazed + adminreport.getPriceGlazed();
+                sumTotalPriceSugarR = sumTotalPriceSugarR + adminreport.getPriceSugarR();
+                sumTotalPriceChocolateR = sumTotalPriceChocolateR + adminreport.getPriceChocolateR();
+                sumTotalPricePlain = sumTotalPricePlain + adminreport.getPricePlain();
+                sumTotalPriceChocolateC = sumTotalChocolateC + adminreport.getPriceChocolateC();
+                sumTotalPriceSugarC = sumTotalPriceSugarC + adminreport.getPriceSugarC();
+                sumTotalPriceLemon = sumTotalPriceLemon + adminreport.getPriceLemon();
+                sumTotalPriceGrape = sumTotalPriceGrape + adminreport.getPriceGrape();
+                sumTotalPriceCustard = sumTotalPriceCustard + adminreport.getPriceCustard();
+                sumTotalPriceTotal = sumTotalPriceTotal + adminreport.getTotalPrice();
             }
 
-            System.out.println("Inventory successfully written");
+            bw.write("Weekly" + "," + sumTotalRaised + "," + sumTotalGlazed + "," + sumTotalPriceGlazed + "," + sumTotalSugarR + "," + sumTotalPriceSugarR + "," + sumTotalChocolateR + "," +
+                    sumTotalPriceChocolateR + "," + sumTotalCake + "," + sumTotalPlain + "," + sumTotalPricePlain + "," + sumTotalChocolateC + "," + sumTotalPriceChocolateC + "," + sumTotalSugarC + "," +
+                    sumTotalPriceSugarC + "," + sumTotalFilled + "," + sumTotalLemon + "," + sumTotalPriceLemon + "," + sumTotalGrape + "," + sumTotalPriceGrape + "," + sumTotalCustard + "," +
+                    sumTotalPriceCustard + "," + sumTotalQuantityTotal + "," + sumTotalPriceTotal + "\n");
 
-            csvWriter.flush();
-            csvWriter.close();
+            bw.flush();
+            bw.close();
+
+            System.out.println("Writing to CSV successful");
+
+        } catch (IOException e) {
+            System.err.println("Error writing inventory to CSV file: " + e.getMessage());
+        }
+
+        try {
+            csvWriter = new FileWriter("admin-report.csv", true);
+            BufferedWriter bw = new BufferedWriter(csvWriter);
+
+            int sumTotalRaised = 0, sumTotalGlazed = 0, sumTotalSugarR = 0, sumTotalChocolateR = 0, sumTotalCake = 0,
+                    sumTotalPlain = 0, sumTotalChocolateC = 0, sumTotalSugarC = 0, sumTotalFilled = 0, sumTotalLemon = 0,
+                    sumTotalGrape = 0, sumTotalCustard = 0, sumTotalQuantityTotal = 0;
+
+            float sumTotalPriceGlazed = 0, sumTotalPriceSugarR = 0, sumTotalPriceChocolateR = 0, sumTotalPricePlain = 0, sumTotalPriceChocolateC = 0, sumTotalPriceSugarC = 0, sumTotalPriceLemon = 0,
+                    sumTotalPriceGrape = 0, sumTotalPriceCustard = 0, sumTotalPriceTotal = 0;
+
+            // write the data rows
+            for (adminReport adminreport : adminReportMonthly) {
+                sumTotalRaised = sumTotalRaised + adminreport.getTotalRaised();
+                sumTotalGlazed = sumTotalGlazed + adminreport.getGlazed();
+                sumTotalSugarR = sumTotalSugarR + adminreport.getSugarR();
+                sumTotalChocolateR = sumTotalChocolateR + adminreport.getChocolateR();
+                sumTotalCake = sumTotalCake + adminreport.getTotalCake();
+                sumTotalPlain = sumTotalPlain + adminreport.getPlain();
+                sumTotalChocolateC = sumTotalChocolateC + adminreport.getChocolateC();
+                sumTotalSugarC = sumTotalSugarC + adminreport.getSugarC();
+                sumTotalFilled = sumTotalFilled + adminreport.getTotalFilled();
+                sumTotalLemon = sumTotalLemon + adminreport.getLemon();
+                sumTotalGrape = sumTotalGrape + adminreport.getGrape();
+                sumTotalCustard = sumTotalCustard + adminreport.getCustard();
+                sumTotalQuantityTotal = sumTotalQuantityTotal + adminreport.getTotalQuantity();
+
+                sumTotalPriceGlazed = sumTotalPriceGlazed + adminreport.getPriceGlazed();
+                sumTotalPriceSugarR = sumTotalPriceSugarR + adminreport.getPriceSugarR();
+                sumTotalPriceChocolateR = sumTotalPriceChocolateR + adminreport.getPriceChocolateR();
+                sumTotalPricePlain = sumTotalPricePlain + adminreport.getPricePlain();
+                sumTotalPriceChocolateC = sumTotalChocolateC + adminreport.getPriceChocolateC();
+                sumTotalPriceSugarC = sumTotalPriceSugarC + adminreport.getPriceSugarC();
+                sumTotalPriceLemon = sumTotalPriceLemon + adminreport.getPriceLemon();
+                sumTotalPriceGrape = sumTotalPriceGrape + adminreport.getPriceGrape();
+                sumTotalPriceCustard = sumTotalPriceCustard + adminreport.getPriceCustard();
+                sumTotalPriceTotal = sumTotalPriceTotal + adminreport.getTotalPrice();
+            }
+
+            bw.write("Monthly" + "," + sumTotalRaised + "," + sumTotalGlazed + "," + sumTotalPriceGlazed + "," + sumTotalSugarR + "," + sumTotalPriceSugarR + "," + sumTotalChocolateR + "," +
+                    sumTotalPriceChocolateR + "," + sumTotalCake + "," + sumTotalPlain + "," + sumTotalPricePlain + "," + sumTotalChocolateC + "," + sumTotalPriceChocolateC + "," + sumTotalSugarC + "," +
+                    sumTotalPriceSugarC + "," + sumTotalFilled + "," + sumTotalLemon + "," + sumTotalPriceLemon + "," + sumTotalGrape + "," + sumTotalPriceGrape + "," + sumTotalCustard + "," +
+                    sumTotalPriceCustard + "," + sumTotalQuantityTotal + "," + sumTotalPriceTotal + "\n");
+
+            bw.flush();
+            bw.close();
+
+            System.out.println("Writing to CSV successful");
+
+        } catch (IOException e) {
+            System.err.println("Error writing inventory to CSV file: " + e.getMessage());
+        }
+
+        try {
+            csvWriter = new FileWriter("admin-report.csv", true);
+            BufferedWriter bw = new BufferedWriter(csvWriter);
+
+            int sumTotalRaised = 0, sumTotalGlazed = 0, sumTotalSugarR = 0, sumTotalChocolateR = 0, sumTotalCake = 0,
+                    sumTotalPlain = 0, sumTotalChocolateC = 0, sumTotalSugarC = 0, sumTotalFilled = 0, sumTotalLemon = 0,
+                    sumTotalGrape = 0, sumTotalCustard = 0, sumTotalQuantityTotal = 0;
+
+            float sumTotalPriceGlazed = 0, sumTotalPriceSugarR = 0, sumTotalPriceChocolateR = 0, sumTotalPricePlain = 0, sumTotalPriceChocolateC = 0, sumTotalPriceSugarC = 0, sumTotalPriceLemon = 0,
+                    sumTotalPriceGrape = 0, sumTotalPriceCustard = 0, sumTotalPriceTotal = 0;
+
+            // write the data rows
+            for (adminReport adminreport : adminReportYearly) {
+                sumTotalRaised = sumTotalRaised + adminreport.getTotalRaised();
+                sumTotalGlazed = sumTotalGlazed + adminreport.getGlazed();
+                sumTotalSugarR = sumTotalSugarR + adminreport.getSugarR();
+                sumTotalChocolateR = sumTotalChocolateR + adminreport.getChocolateR();
+                sumTotalCake = sumTotalCake + adminreport.getTotalCake();
+                sumTotalPlain = sumTotalPlain + adminreport.getPlain();
+                sumTotalChocolateC = sumTotalChocolateC + adminreport.getChocolateC();
+                sumTotalSugarC = sumTotalSugarC + adminreport.getSugarC();
+                sumTotalFilled = sumTotalFilled + adminreport.getTotalFilled();
+                sumTotalLemon = sumTotalLemon + adminreport.getLemon();
+                sumTotalGrape = sumTotalGrape + adminreport.getGrape();
+                sumTotalCustard = sumTotalCustard + adminreport.getCustard();
+                sumTotalQuantityTotal = sumTotalQuantityTotal + adminreport.getTotalQuantity();
+
+                sumTotalPriceGlazed = sumTotalPriceGlazed + adminreport.getPriceGlazed();
+                sumTotalPriceSugarR = sumTotalPriceSugarR + adminreport.getPriceSugarR();
+                sumTotalPriceChocolateR = sumTotalPriceChocolateR + adminreport.getPriceChocolateR();
+                sumTotalPricePlain = sumTotalPricePlain + adminreport.getPricePlain();
+                sumTotalPriceChocolateC = sumTotalChocolateC + adminreport.getPriceChocolateC();
+                sumTotalPriceSugarC = sumTotalPriceSugarC + adminreport.getPriceSugarC();
+                sumTotalPriceLemon = sumTotalPriceLemon + adminreport.getPriceLemon();
+                sumTotalPriceGrape = sumTotalPriceGrape + adminreport.getPriceGrape();
+                sumTotalPriceCustard = sumTotalPriceCustard + adminreport.getPriceCustard();
+                sumTotalPriceTotal = sumTotalPriceTotal + adminreport.getTotalPrice();
+            }
+
+            bw.write("Yearly" + "," + sumTotalRaised + "," + sumTotalGlazed + "," + sumTotalPriceGlazed + "," + sumTotalSugarR + "," + sumTotalPriceSugarR + "," + sumTotalChocolateR + "," +
+                    sumTotalPriceChocolateR + "," + sumTotalCake + "," + sumTotalPlain + "," + sumTotalPricePlain + "," + sumTotalChocolateC + "," + sumTotalPriceChocolateC + "," + sumTotalSugarC + "," +
+                    sumTotalPriceSugarC + "," + sumTotalFilled + "," + sumTotalLemon + "," + sumTotalPriceLemon + "," + sumTotalGrape + "," + sumTotalPriceGrape + "," + sumTotalCustard + "," +
+                    sumTotalPriceCustard + "," + sumTotalQuantityTotal + "," + sumTotalPriceTotal + "\n");
+
+            bw.flush();
+            bw.close();
+
+            System.out.println("Writing to CSV successful");
 
         } catch (IOException e) {
             System.err.println("Error writing inventory to CSV file: " + e.getMessage());
@@ -223,8 +391,7 @@ public class adminReport {
     }
 
     public static void printAdminReport(){
-        for (adminReport adminreport : adminReportData) {
-            System.out.println("Report type: "+ adminreport.getReportTime());
+        for (adminReport adminreport : adminReportWeekly) {
             System.out.println("totalRaised: "+ adminreport.getTotalRaised());
             System.out.println("Glazed quantity: " + adminreport.getGlazed());
             System.out.println("Glazed price: " + adminreport.getPriceGlazed());
