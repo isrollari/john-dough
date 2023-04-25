@@ -53,8 +53,8 @@ public class Main {
 			System.exit(1);
 		}
 		
-		inputsc.close();
 		menu.run();
+		inputsc.close();
 	}
 
 }
