@@ -13,7 +13,7 @@ public class Trays {
 		
 		filesc.useDelimiter(",");
 		filesc.nextLine();
-		tmpType = filesc.next();
+		tmpType = filesc.next() + filesc.next();
 		
 		while (filesc.hasNext()) {
 			mType = tmpType.split("\\s")[1];
