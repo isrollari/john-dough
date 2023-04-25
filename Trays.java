@@ -57,6 +57,8 @@ public class Trays {
 			if (currentTrays.get(i).numAvailable == 0)
 				continue;
 			else if (currentTrays.get(i).daysold == 1) {
+				currentTrays.get(i).updateDaysOld();
+				
 				System.out.println("Donut tray with ID "+currentTrays.get(i).trayID+" is expired; throw out.");
 			} else {
 				currentTrays.get(i).updateDaysOld();
