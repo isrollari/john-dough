@@ -12,7 +12,7 @@ public class Main {
 		int mchoice;
 		String enteredKey;
 		Menu menu;
-		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\doughnut-menu.csv");
+		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\menu.csv");
 		
 		System.out.println("Please select which menu to run:");
 		System.out.println("1. Customer Menu");
