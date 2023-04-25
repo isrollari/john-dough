@@ -21,8 +21,9 @@ public class adminReport {
     private int custard;
     private int totalPrice;
     private int totalQuantity;
-
+    private int staleDoughnts;
     public static ArrayList<adminReport> adminReportData = new ArrayList<>();
+    public static ArrayList<adminReport> adminReportStaleData = new ArrayList<>();
 
     public adminReport(){
         String csvFile = "admin-report.csv";
@@ -74,12 +75,45 @@ public class adminReport {
                 adminreport.setCustard(custard);
                 adminreport.setTotalPrice(totalPrice);
                 adminreport.setTotalQuantity(totalQuantity);
+
+                adminReportData.add(adminreport);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void adminReportStale(){
+        String csvFile = "admin-report-stale.csv";
+        String line = "";
+        String csvSplitBy = ",";
+        int count = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+
+            while ((line = br.readLine()) != null) {
+
+                if (count == 0) {
+                    count++;
+                    continue; // skip the first line
+                }
+
+                String[] orderStr = line.split(csvSplitBy);
+
+                // Access the order data using the index of the array
+                String reportTime = (orderStr[0]);
+                int stale = Integer.parseInt(orderStr[1]);
+
+                adminReport adminreport = new adminReport();
+                adminreport.setStaleDoughnts(stale);
+
+                adminReportStaleData.add(adminreport);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void writeAdminReport() {
@@ -132,6 +166,14 @@ public class adminReport {
         } catch (IOException e) {
             System.err.println("Error writing inventory to CSV file: " + e.getMessage());
         }
+    }
+
+    public int getStaleDoughnts() {
+        return staleDoughnts;
+    }
+
+    public void setStaleDoughnts(int staleDoughnts) {
+        this.staleDoughnts = staleDoughnts;
     }
 
     public String getReportTime() {
