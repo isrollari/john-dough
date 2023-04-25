@@ -1,1 +1,4 @@
-reportTime,totalRaised,Glazed,SugarR,ChocolateR,totalCake,Plain,ChocolateC,SugarC,totalFilled,Lemon,Grape,Custard,totalPrice,totalQuantity
+reportTime,totalRaised,Glazed,priceGlazed,SugarR,priceSugarR,ChocolateR,priceChocolateR,totalCake,Plain,pricePlain,ChocolateC,priceChocolateC,SugarC,priceSugarC,totalFilled,Lemon,priceLemon,Grape,priceGrape,Custard,priceCustard,totalPrice,totalQuantity
+Weekly,15,5,6.25,5,5.75,5,6.75,15,5,5,5,7,5,6,15,5,8.75,5,8.75,5,10,64.25,45
+Monthly,45,15,18.75,15,17.25,15,20.25,45,15,15,15,21,15,18,45,15,26.25,15,26.25,15,30,192.75,135
+Yearly,135,45,56.25,45,51.75,45,60.75,135,45,45,45,63,45,54,135,45,78.75,45,78.75,45,90,578.25,405
