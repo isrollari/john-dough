@@ -1,4 +1,5 @@
 package johnDough;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -6,11 +7,25 @@ public class Orders {
 	 //TODO:
 	public static ArrayList<Order> inventory = new ArrayList<>();
 	int i=1;
-	public void placeOrder(String date, String name, int glazed, int sugarR, int chocolateR, int plain,
-			int chocolateC, int sugarC, int lemon, int grape, int custard) 
+	public void placeOrder(String date, String name, HashMap<String, Integer> ordered)
 	{
-		Order temp = new Order(i, date, name, glazed,  sugarR,  chocolateR,  plain,
-				 chocolateC,  sugarC,  lemon,  grape,  custard);
+		HashMap<String, Integer> tmp = new HashMap<>();
+		tmp.put("Raised Glazed", 0);
+		tmp.put("Raised Sugar", 0);
+		tmp.put("Raised Chocolate", 0);
+		tmp.put("Cake Plain", 0);
+		tmp.put("Cake Chocolate", 0);
+		tmp.put("Cake Sugar", 0);
+		tmp.put("Filled Lemon", 0);
+		tmp.put("Filled Grape", 0);
+		tmp.put("Filled Custard", 0);
+		
+		ordered.forEach((s, i) -> {
+			tmp.put(s, i);
+		});
+		
+		Order temp = new Order(i, date, name, tmp.get("Raised Glazed"), tmp.get("Raised Sugar"), tmp.get("Raised Chocolate"),  tmp.get("Cake Plain"),
+				 tmp.get("Cake Chocolate"), tmp.get("Cake Sugar"), tmp.get("Filled Lemon"), tmp.get("Filled Grape"), tmp.get("Filled Custard"));
 		inventory.add(temp);
 		this.i++;
 	}
@@ -64,4 +79,3 @@ public class Orders {
 		*/
 	}
 }
-
