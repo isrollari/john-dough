@@ -122,6 +122,15 @@ public class EmployeeMenu extends Menu {
 				});
 				
 				break;
+			case 5:
+				try {
+					currentTrays.saveTrays();
+				} catch (IOException e) {
+					System.out.println("An error occurred");
+					e.printStackTrace();
+				}
+				
+				System.exit(0);
 			default:
 				System.out.println("That's not a valid option");
 			}
