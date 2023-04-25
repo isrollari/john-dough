@@ -60,7 +60,8 @@ public class AdminOptions extends Menu {
 					adminReport.writeAdminReport();
 					break;
 				case 2:
-					adminReport.printAdminReportStale();
+					adminReport.generateAdminReportStale();
+					adminReport.writeAdminReportStale();
 					break;
 				default:
 					System.out.println("That's not a valid option");

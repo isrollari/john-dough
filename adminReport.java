@@ -218,8 +218,58 @@ public class adminReport {
         System.out.print("Week: " + weekcount + " Month: " + monthcount + " Year: " + yearcount + "\n");
     }
 
-    public static void openAdminReportStale(){
+    public static void generateAdminReportStale() throws FileNotFoundException{
 
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("M/d/yyyy");
+        LocalDate currentDate = LocalDate.now();
+
+        File FmyObj = new File("doughnut-inventory.csv");
+        Scanner filesc = new Scanner(FmyObj);
+        String datatest[] = {};
+
+        filesc.nextLine();
+
+        while(filesc.hasNextLine()) {
+            String data = filesc.nextLine();
+            datatest = data.split(",");
+
+            if(Integer.parseInt(datatest[3]) < 7 && Integer.parseInt(datatest[3]) > 1){
+                adminReport adminreport = new adminReport();
+
+                int targetAge = Integer.parseInt((datatest[3]));
+
+                if(targetAge >= 2){
+                    adminreport.setTotalQuantity(Integer.parseInt(datatest[2]));
+
+                    adminReportWeeklyStale.add(adminreport);
+                }
+            }
+
+            if(Integer.parseInt(datatest[3]) < 31 && Integer.parseInt(datatest[3]) > 1){
+                adminReport adminreport = new adminReport();
+
+                int targetAge = Integer.parseInt((datatest[3]));
+
+                if(targetAge >= 2){
+                    adminreport.setTotalQuantity(Integer.parseInt(datatest[2]));
+
+                    adminReportMonthlyStale.add(adminreport);
+                }
+            }
+
+            if(Integer.parseInt(datatest[3]) < 365 && Integer.parseInt(datatest[3]) > 1) {
+                adminReport adminreport = new adminReport();
+
+                int targetAge = Integer.parseInt((datatest[3]));
+
+                if (targetAge >= 2) {
+                    adminreport.setTotalQuantity(Integer.parseInt(datatest[2]));
+
+                    adminReportYearlyStale.add(adminreport);
+                }
+            }
+        }
+        filesc.close();
     }
 
     public static void writeAdminReport() {
@@ -379,6 +429,81 @@ public class adminReport {
                     sumTotalPriceChocolateR + "," + sumTotalCake + "," + sumTotalPlain + "," + sumTotalPricePlain + "," + sumTotalChocolateC + "," + sumTotalPriceChocolateC + "," + sumTotalSugarC + "," +
                     sumTotalPriceSugarC + "," + sumTotalFilled + "," + sumTotalLemon + "," + sumTotalPriceLemon + "," + sumTotalGrape + "," + sumTotalPriceGrape + "," + sumTotalCustard + "," +
                     sumTotalPriceCustard + "," + sumTotalQuantityTotal + "," + sumTotalPriceTotal + "\n");
+
+            bw.flush();
+            bw.close();
+
+            System.out.println("Writing to CSV successful");
+
+        } catch (IOException e) {
+            System.err.println("Error writing inventory to CSV file: " + e.getMessage());
+        }
+    }
+
+    public static void writeAdminReportStale() {
+
+        FileWriter csvWriter;
+        try {
+            csvWriter = new FileWriter("admin-report-stale.csv");
+            BufferedWriter bw = new BufferedWriter(csvWriter);
+
+            int sumTotalQuantity = 0;
+
+            String Header = "Num Thrown Out\n";
+
+            bw.write(Header);
+            bw.flush();
+
+            // write the data rows
+            for (adminReport adminreport : adminReportWeeklyStale) {
+                sumTotalQuantity = sumTotalQuantity + adminreport.getTotalQuantity();
+            }
+
+            bw.write("Weekly" + "," + sumTotalQuantity + "\n");
+
+            bw.flush();
+            bw.close();
+
+            System.out.println("Writing to CSV successful");
+
+        } catch (IOException e) {
+            System.err.println("Error writing inventory to CSV file: " + e.getMessage());
+        }
+
+        try {
+            csvWriter = new FileWriter("admin-report-stale.csv", true);
+            BufferedWriter bw = new BufferedWriter(csvWriter);
+
+            int sumTotalQuantity = 0;
+
+            // write the data rows
+            for (adminReport adminreport : adminReportMonthlyStale) {
+                sumTotalQuantity = sumTotalQuantity + adminreport.getTotalQuantity();
+            }
+
+            bw.write("Monthly" + "," + sumTotalQuantity + "\n");
+
+            bw.flush();
+            bw.close();
+
+            System.out.println("Writing to CSV successful");
+
+        } catch (IOException e) {
+            System.err.println("Error writing inventory to CSV file: " + e.getMessage());
+        }
+
+        try {
+            csvWriter = new FileWriter("admin-report-stale.csv", true);
+            BufferedWriter bw = new BufferedWriter(csvWriter);
+
+            int sumTotalQuantity = 0;
+
+            // write the data rows
+            for (adminReport adminreport : adminReportYearlyStale) {
+                sumTotalQuantity = sumTotalQuantity + adminreport.getTotalQuantity();
+            }
+
+            bw.write("Yearly" + "," + sumTotalQuantity + "\n");
 
             bw.flush();
             bw.close();
