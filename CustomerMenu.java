@@ -78,8 +78,7 @@ public class CustomerMenu extends Menu {
 						ordered.put(tmp.split(",")[0], Integer.parseInt(tmp.split(",")[1].trim()));
 				}
 				
-				tod.placeOrder(LocalDate.now().format(format), customerName, ordered.get("glazed"), ordered.get("sugarR"), ordered.get("chocolateR"), ordered.get("plain"), ordered.get("chocolateC"), ordered.get("sugarC"), ordered.get("lemon"), ordered.get("grape"), ordered.get("custard"));
-				
+				tod.placeOrder(LocalDate.now().format(format), customerName, ordered);
 				break;
 			default:
 				System.out.println("That's not a valid option.");
