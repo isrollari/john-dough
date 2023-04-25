@@ -6,8 +6,9 @@ import java.time.format.DateTimeFormatter;
 
 public class EmployeeMenu extends Menu {
 	HashMap<String, Float> menuOptions = new HashMap<>();
+	Trays currentTrays;
 	
-	public EmployeeMenu(File f) throws Exception {
+	public EmployeeMenu(File f, Trays current) throws Exception {
 		Scanner filesc = new Scanner(f);
 		String doughnutName, tmp;
 		float price;
@@ -28,6 +29,8 @@ public class EmployeeMenu extends Menu {
 		}
 		
 		filesc.close();
+		
+		currentTrays = current;
 	}
 	
 	public void run() {
@@ -47,6 +50,7 @@ public class EmployeeMenu extends Menu {
 			System.out.println("4. Place an order");
 			
 			mchoice = inputsc.nextInt();
+			inputsc.nextLine();
 			
 			switch(mchoice) {
 			case 1:
@@ -74,6 +78,15 @@ public class EmployeeMenu extends Menu {
 				Orders.inventory.get(tmp).setIs_processed(true);
 				break;
 			case 3:
+				System.out.println("Please enter the type of doughnut on this tray:");
+				
+				tmpop = inputsc.nextLine();
+				System.out.println("Please enter the ID for the new tray:");
+				IDchoice = inputsc.nextInt();
+				inputsc.nextLine();
+				
+				currentTrays.addTray(tmpop.split("\\s")[0], tmpop.split("\\s")[1], IDchoice);
+				
 				break;
 			case 4:
 				menuOptions.forEach((s, f) -> {
