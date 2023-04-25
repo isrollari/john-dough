@@ -42,6 +42,10 @@ public class EmployeeMenu extends Menu {
 		Orders tod = new Orders();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd LLLL yyyy");
 		
+		menuOptions.forEach((s,f) -> {
+			ordered.put(s, 0);
+		});
+		
 		while (true) {
 			System.out.println("Please select an option below:");
 			System.out.println("1. View current orders");
@@ -112,6 +116,11 @@ public class EmployeeMenu extends Menu {
 				}
 				
 				tod.placeOrder(LocalDate.now().format(format), customerName, ordered);
+				
+				ordered.forEach((s, i) -> {
+					ordered.put(s, 0);
+				});
+				
 				break;
 			default:
 				System.out.println("That's not a valid option");
