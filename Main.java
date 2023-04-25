@@ -20,6 +20,7 @@ public class Main {
 		System.out.println("3. Admin Menu");
 		
 		mchoice = inputsc.nextInt();
+		inputsc.nextLine();
 		
 		switch (mchoice) {
 		case 1:
