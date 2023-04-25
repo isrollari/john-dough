@@ -30,21 +30,39 @@ public class AdminOptions extends Menu {
 	
 	public void run() {
 		Scanner inputsc = new Scanner(System.in);
-		int mchoice;
-		adminReport reports = new adminReport();
+		int mchoice, schoice;
+		String tmp;
+		float newprice;
 		
 		while (true) {
 			System.out.println("Please select an option:");
 			System.out.println("1. Generate reports");
 			System.out.println("2. View menu");
 			System.out.println("3. Edit menu");
+			System.out.println("4. Change factory output");
 			
 			mchoice = inputsc.nextInt();
 			inputsc.nextLine();
 			
 			switch(mchoice) {
 			case 1:
+				System.out.println("Please select a report to generate:");
+				System.out.println("1. Sales summary");
+				System.out.println("2. Stale doughnut summary");
 				
+				schoice = inputsc.nextInt();
+				inputsc.nextLine();
+				
+				switch(schoice) {
+				case 1:
+					adminReport.printAdminReport();
+					break;
+				case 2:
+					adminReport.printAdminReportStale();
+					break;
+				default:
+					System.out.println("That's not a valid option");
+				}
 				
 				break;
 			case 2:
@@ -54,6 +72,48 @@ public class AdminOptions extends Menu {
 				
 				break;
 			case 3:
+				System.out.println("Please enter the doughnut type to change the price point of:");
+				tmp = inputsc.nextLine();
+				
+				if (!menuOptions.containsKey(tmp))
+					System.out.println("That isn't in the list");
+					
+				System.out.println("Please enter the new price point:");
+				newprice = inputsc.nextFloat();
+				inputsc.nextLine();
+				
+				menuOptions.put(tmp, newprice);
+				
+				try {
+					FileWriter csvwriter = new FileWriter("menu.csv");
+					
+					csvwriter.flush();
+					
+					menuOptions.forEach((s,f) -> {
+						try {
+							csvwriter.append(s);
+							csvwriter.append(",");
+							csvwriter.append(String.valueOf(f));
+						} catch (IOException e) {
+							System.out.println("Error writing to file");
+							e.printStackTrace();
+						}
+					});
+					
+				} catch(IOException e) {
+					System.out.println("Error reading file");
+					System.exit(1);
+				}
+				
+				break;
+			case 4:
+				System.out.println("Please enter a new number of doughnuts to produce:");
+				
+				schoice = inputsc.nextInt();
+				inputsc.nextLine();
+				
+				Orders.DailyDoughnuts = schoice;
+				
 				break;
 			default:
 				System.out.println("That's not a valid option");
