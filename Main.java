@@ -11,8 +11,9 @@ public class Main {
 		Scanner inputsc = new Scanner(System.in);
 		int mchoice;
 		String enteredKey;
-		Menu menu;
-		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\menu.csv");
+		Menu menu = new AdminOptions();
+		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\menu.csv");
+		File DoughnutInventory = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\doughnut-inventory.csv");
 		
 		System.out.println("Please select which menu to run:");
 		System.out.println("1. Customer Menu");
@@ -35,7 +36,9 @@ public class Main {
 				System.exit(1);
 			}
 			
-			menu = new EmployeeMenu();
+			Trays inventory = new Trays(DoughnutInventory);
+			
+			menu = new EmployeeMenu(FactoryMenu, inventory);
 			break;
 		case 3:
 			System.out.println("Please enter the admin passkey:");
