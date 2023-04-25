@@ -8,7 +8,7 @@ public class Trays {
 	
 	public Trays(File f) throws FileNotFoundException {
 		Scanner filesc = new Scanner(f);
-		String mType, sType, baketime, tmpType, tmp;
+		String mType, sType, tmpType, tmp;
 		int ID, curDonuts, daysOld;
 		
 		filesc.useDelimiter(",");
@@ -19,18 +19,17 @@ public class Trays {
 			mType = tmpType.split("\\s")[1];
 			sType = tmpType.split("\\s")[0];
 			
-			ID = Integer.parseInt(filesc.next());
 			curDonuts = Integer.parseInt(filesc.next());
 			daysOld = Integer.parseInt(filesc.next());
 			
 			tmp = filesc.next();
-			baketime = tmp.split("\n")[0];
+			ID = Integer.parseInt(tmp.split("\n")[0]);
 			
 			if (filesc.hasNext()) {
 				tmpType = tmp.split("\n")[1];
 			}
 				
-			currentTrays.add(new Tray(mType, sType, ID, LocalTime.parse(baketime), daysOld, curDonuts));
+			currentTrays.add(new Tray(mType, sType, ID, LocalTime.now(), daysOld, curDonuts));
 		}
 		
 		filesc.close();
