@@ -22,7 +22,9 @@ public class Trays {
 			daysOld = Integer.parseInt(filesc.next());
 			
 			tmp = filesc.next();
-			ID = Integer.parseInt(tmp.split("\n")[0]);
+			String l = tmp.split("\n")[0];
+			l = l.replace("\r","");
+			System.out.println(l);
 			
 			if (filesc.hasNext()) {
 				mType = tmp.split("\n")[1];
