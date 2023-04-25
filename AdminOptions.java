@@ -94,6 +94,7 @@ public class AdminOptions extends Menu {
 							csvwriter.append(s);
 							csvwriter.append(",");
 							csvwriter.append(String.valueOf(f));
+							csvwriter.append("\n");
 						} catch (IOException e) {
 							System.out.println("Error writing to file");
 							e.printStackTrace();
