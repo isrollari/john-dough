@@ -139,7 +139,7 @@ public Order(int order_ID, String date, String name, int glazed, int sugarR, int
 
 		FileWriter csvWriter;
 		try {
-			csvWriter = new FileWriter("order-history.xlsx");
+			csvWriter = new FileWriter("order-history.csv");
 
 			// write the data rows
 			for (Order order : OrderList) {
