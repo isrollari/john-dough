@@ -8,6 +8,7 @@ public class Orders {
 	 //TODO:
 	private static final DecimalFormat df = new DecimalFormat("0.00");
 	public static ArrayList<Order> inventory = new ArrayList<>();
+	public static DailyDoughnuts = 200;
 	int i = 0;
 	public void placeOrder(String date, String name, HashMap<String, Integer> ordered)
 	{
@@ -26,9 +27,17 @@ public class Orders {
 			tmp.put(s, i);
 		});
 		
+		int orderedDoughnuts = tmp.get("Raised Glazed")+tmp.get("Raised Sugar)")+tmp.get("Raised Chocolate")+tmp.get("Cake Plain")+tmp.get("Cake Chocolate")+tmp.get("Cake Sugar")+tmp.get("Filled Lemon")+tmp.get("Filled Grape")+tmp.get("Filled Custard");
+		
+		if (orderedDoughnuts > DailyDoughnuts) {
+			System.out.println("We're sorry, but we are out of doughnuts for the day.");
+			return;
+		}
+		
 		Order temp = new Order(i, date, name, tmp.get("Raised Glazed"), tmp.get("Raised Sugar"), tmp.get("Raised Chocolate"),  tmp.get("Cake Plain"),
 				 tmp.get("Cake Chocolate"), tmp.get("Cake Sugar"), tmp.get("Filled Lemon"), tmp.get("Filled Grape"), tmp.get("Filled Custard"));
 		inventory.add(temp);
+		DailyDoughnuts -= orderedDoughnuts;
 		this.i++;
 	}
 	
