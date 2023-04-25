@@ -72,6 +72,9 @@ public class Trays {
 	
 	public void saveTrays() throws IOException {
 		FileWriter writer = new FileWriter("doughnut-inventory.csv");
+		writer.flush();
+		
+		writer.write("Doughnut Type,Doughnut Subtype,Quantity,Days Old,Tray ID\n");
 		
 		for (int i = 0; i < currentTrays.size(); i++) {
 			if (currentTrays.get(i).numAvailable == 0)
@@ -81,7 +84,7 @@ public class Trays {
 			} else {
 				currentTrays.get(i).updateDaysOld();
 				
-				writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).trayID+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","+currentTrays.get(i).baketime+"\n");
+				writer.write(currentTrays.get(i).mainType+" "+currentTrays.get(i).subType+","+currentTrays.get(i).numAvailable+","+currentTrays.get(i).daysold+","","+currentTrays.get(i).trayID+"\n");
 			}
 		}
 		
