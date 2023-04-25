@@ -13,7 +13,7 @@ public class Main {
 		String enteredKey;
 		File FactoryMenu = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\menu.csv");
 		File DoughnutInventory = new File("C:\\Users\\Orion Joseph\\eclipse-workspace\\John-Dough\\src\\johnDough\\doughnut-inventory.csv");
-		Menu menu = new Menu();
+		Menu menu = new CustomerMenu(FactoryMenu);
 		
 		System.out.println("Please select which menu to run:");
 		System.out.println("1. Customer Menu");
