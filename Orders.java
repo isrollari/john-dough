@@ -76,17 +76,11 @@ public class Orders {
 			System.out.println("Number of Custard Filled Doughnuts: "+ inventory.get(index).getCustard());
 		}
 		
-		
-		
-		
-		
-		/*
 		if(inventory.get(index).isIs_processed())
 		{
 			System.out.println("Order has been processed");
 		}else {
 			System.out.println("Order has not been processed");
 		}
-		*/
 	}
 }
