@@ -24,7 +24,7 @@ public class Trays {
 			tmp = filesc.next();
 			String l = tmp.split("\n")[0];
 			l = l.replace("\r","");
-			System.out.println(l);
+			ID = Integer.parseInt(l);
 			
 			if (filesc.hasNext()) {
 				mType = tmp.split("\n")[1];
